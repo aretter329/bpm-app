@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask App</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-5"> Playlist Builder </h1>
+        <p> This app allows you to design playlists based on artist, genre, song, or some combination of the three. 
+            In addition, you may specify parameters like tempo and duration to match your playlist needs! Begin by 
+            checking up to 5 boxes, then add your optional preferences, and click "Update songs". Play around with the 
+            settings until you are happy with your songs. When you're ready, click the "Make my playlist!" button, 
+            and a Spotify link to your new playlist will appear! 
+        </p>
+
+
+        <button id="updateButton">Update songs</button>
+        <button id="makePlaylist">Make my playlist!</button>
+        <a id="playlistLink"> </a>
+        <div class="row">
+            <div class = "column">
+                <table id="selectedSongsTable">
+                    <thead>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class ='row'>
+        <div class="column">
+        <table id="songsTable">
+            <thead>
+                <tr>
+                    <th>Your Top Tracks</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for track in tracks %}
+                <tr data-bpm = "{{tempo}}">
+                    <td><input type="checkbox" name="songs" value="{{track.id}}">  {{ track.name }} ({{track.artists[0].name}})</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class = 'column'>
+        <table id="songsTable">
+            <thead>
+                <tr>
+                    <th>Your Top Artists</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for artist in artists %}
+                <tr >
+                    <td><input type="checkbox" name="artists" value="{{artist.id}}"> {{ artist.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+        <div class="column">
+        <table id="songsTable">
+            <thead>
+                <tr>
+                    <th>Popular Genres</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for genre in ['acoustic', 'alt-rock', 'blues', 'chill', 'classical', 'club', 'country', 'drum-and-bass', 'dubstep', 'edm', 'emo', 'folk', 'funk', 'gospel', 'groove', 'hard-rock', 'heavy-metal', 'hip-hop', 'house', 'indie', 'jazz', 'k-pop', 'metal', 'party', 'pop', 'reggaeton', 'rock', 'romance', 'soul', 'work-out'] %}
+                
+                <tr >
+                    <td><input type="checkbox" name="genres" value="{{genre}}"> {{ genre }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+        <select name="bpmRange" id="minBpm"> 
+            {% for bpm in range(50, 201, 10) %}
+            <option value="{{ bpm }}">{{ bpm }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="bpmRange" id="maxBpm"> 
+            {% for bpm in range(50, 201, 10) %}
+            <option value="{{ bpm }}">{{ bpm }}</option>
+            {% endfor %}
+        </select>
+
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
